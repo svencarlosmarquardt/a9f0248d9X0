@@ -3,524 +3,574 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Managerkreis – Mitglieder-Dashboard</title>
+<title>Mitglieder-Dashboard | Managerkreis</title>
+<meta name="robots" content="noindex, nofollow">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,700&display=swap" rel="stylesheet">
+<link rel="icon" href="https://cdn.prod.website-files.com/68c91d7ebfa126ad1b85fad9/68c91d7ebfa126ad1b85fb13_favicon.png" type="image/png">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --red-dark: #8B1A1A;
-    --red-primary: #A51E22;
-    --red-medium: #C62828;
-    --red-light: #D44F4F;
-    --red-lighter: #E57373;
-    --red-pale: #FFCDD2;
-    --dark: #2D3142;
-    --dark-secondary: #4F5D75;
-    --gray: #8D99AE;
-    --light-gray: #EDF2F4;
-    --white: #FFFFFF;
+    /* Managerkreis brand – from website screenshots */
+    --mk-red: #E30613;
+    --mk-red-dark: #B71C1C;
+    --mk-red-darker: #7B0D0D;
+    --mk-maroon: #3D1010;
+    --mk-maroon-deep: #2A0A0A;
+    --mk-pink-bg: #FDE8E8;
+    --mk-pink-light: #F8C9C9;
+    --mk-pink-soft: #F1948A;
+    --mk-white: #FFFFFF;
+    --mk-offwhite: #FEF5F5;
+    --mk-text: #1E1E1E;
+    --mk-text-muted: #6B6B6B;
+    --mk-text-light: #999999;
+    --mk-border: #F0E8E8;
+    --radius: 12px;
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--light-gray);
-    color: var(--dark);
-    line-height: 1.5;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--mk-offwhite);
+    color: var(--mk-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
+  /* ===== HEADER – red hero like website ===== */
   .header {
-    background: linear-gradient(135deg, var(--dark) 0%, #1a1d2e 100%);
-    color: var(--white);
-    padding: 40px 0 30px;
+    background: var(--mk-red);
+    color: var(--mk-white);
+    padding: 44px 24px 36px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
+
+  /* Diagonal decorative lines like the website hero */
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40%; right: -10%;
+    width: 60%; height: 200%;
+    background: repeating-linear-gradient(
+      -30deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.06) 40px,
+      rgba(255,255,255,0.06) 42px
+    );
+    pointer-events: none;
+  }
+
+  .header-inner { position: relative; z-index: 1; }
 
   .header-logo {
-    width: 60px; height: 60px;
-    background: var(--red-primary);
+    width: 52px; height: 52px;
+    background: var(--mk-white);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 16px;
-    font-size: 28px; font-weight: 700;
-    color: var(--white);
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 700;
+    color: var(--mk-red);
+    margin-bottom: 14px;
   }
 
   .header h1 {
-    font-size: 24px; font-weight: 600; letter-spacing: 0.5px;
+    font-size: 28px; font-weight: 700;
+    letter-spacing: -0.3px;
     margin-bottom: 4px;
   }
+  .header h1 b { font-weight: 700; }
 
   .header p {
-    font-size: 14px; color: var(--gray); font-weight: 300;
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
   }
 
+  /* ===== NAV BAR ===== */
+  .topbar {
+    background: var(--mk-white);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--mk-border);
+  }
+
+  .topbar-logo {
+    width: 36px; height: 36px;
+    background: var(--mk-red);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    color: var(--mk-white);
+    flex-shrink: 0;
+  }
+
+  .topbar-text {
+    font-size: 16px; font-weight: 600;
+    color: var(--mk-text);
+  }
+
+  /* ===== CONTAINER ===== */
   .container {
-    max-width: 1200px;
+    max-width: 1120px;
     margin: 0 auto;
-    padding: 24px 20px 60px;
+    padding: 24px 16px 48px;
   }
 
-  /* KPI Cards */
-  .kpi-row {
+  /* ===== KPI ===== */
+  .kpi-strip {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
-    margin-bottom: 28px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
   }
 
-  .kpi-card {
-    background: var(--white);
-    border-radius: 12px;
-    padding: 20px;
+  .kpi {
+    background: var(--mk-white);
+    border-radius: var(--radius);
+    padding: 20px 12px;
     text-align: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    border-top: 3px solid var(--red-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--mk-red);
+  }
+  .kpi .num {
+    font-size: 30px; font-weight: 700;
+    color: var(--mk-red); line-height: 1.1;
+  }
+  .kpi .lbl {
+    font-size: 11px; font-weight: 600;
+    color: var(--mk-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+  }
+  .kpi .sub {
+    font-size: 11px; color: var(--mk-text-light); margin-top: 2px;
   }
 
-  .kpi-card .value {
-    font-size: 32px; font-weight: 700; color: var(--red-dark);
-    line-height: 1.1;
-  }
-
-  .kpi-card .label {
-    font-size: 12px; font-weight: 500; color: var(--dark-secondary);
-    margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px;
-  }
-
-  .kpi-card .sub {
-    font-size: 11px; color: var(--gray); margin-top: 4px;
-  }
-
-  /* Chart Grid */
-  .chart-grid {
+  /* ===== CARDS ===== */
+  .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
   }
 
-  .chart-card {
-    background: var(--white);
-    border-radius: 12px;
+  .card {
+    background: var(--mk-white);
+    border-radius: var(--radius);
     padding: 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  }
-
-  .chart-card.full {
-    grid-column: 1 / -1;
-  }
-
-  .chart-card h3 {
-    font-size: 15px; font-weight: 600; color: var(--dark);
-    margin-bottom: 4px;
-  }
-
-  .chart-card .chart-sub {
-    font-size: 12px; color: var(--gray); margin-bottom: 16px;
-  }
-
-  .chart-wrap {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     position: relative;
+    overflow: hidden;
   }
 
-  /* Footer */
+  /* Red top accent line like the event cards on the website */
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 24px; right: 24px;
+    height: 3px;
+    background: var(--mk-red);
+    border-radius: 0 0 2px 2px;
+  }
+
+  .card.span { grid-column: 1 / -1; }
+
+  .card h3 {
+    font-size: 18px; font-weight: 700;
+    color: var(--mk-text);
+    margin-bottom: 2px;
+  }
+  .card .desc {
+    font-size: 13px; color: var(--mk-text-light);
+    margin-bottom: 16px;
+  }
+
+  .chart-box { position: relative; }
+
+  .two-donuts { display: flex; gap: 20px; }
+  .two-donuts > div { flex: 1; position: relative; }
+  .two-donuts .donut-label {
+    text-align: center; font-size: 11px; font-weight: 600;
+    color: var(--mk-text-muted); text-transform: uppercase;
+    letter-spacing: 0.5px; margin-bottom: 8px;
+  }
+
+  /* ===== FOOTER – dark maroon like website ===== */
   .footer {
-    text-align: center;
-    padding: 24px;
-    font-size: 11px;
-    color: var(--gray);
+    background: var(--mk-maroon-deep);
+    color: rgba(255,255,255,0.5);
+    padding: 28px 24px;
+    font-size: 13px;
   }
 
-  @media (max-width: 768px) {
-    .chart-grid { grid-template-columns: 1fr; }
-    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-left {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .footer-logo {
+    width: 36px; height: 36px;
+    background: var(--mk-red);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    color: var(--mk-white);
+    flex-shrink: 0;
+  }
+
+  .footer a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+  }
+  .footer a:hover { color: var(--mk-white); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 960px) {
+    .grid { grid-template-columns: 1fr; }
+    .card.span { grid-column: auto; }
+    .kpi-strip { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 10px 16px; }
+    .topbar-text { font-size: 14px; }
+
+    .header { padding: 28px 16px 24px; }
+    .header h1 { font-size: 20px; }
+    .header-logo { width: 44px; height: 44px; font-size: 20px; margin-bottom: 10px; }
+    .header p { font-size: 12px; }
+
+    .container { padding: 16px 10px 32px; }
+
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
+    .kpi { padding: 14px 8px; border-radius: 10px; }
+    .kpi .num { font-size: 22px; }
+    .kpi .lbl { font-size: 10px; }
+    .kpi .sub { font-size: 10px; }
+
+    .grid { gap: 10px; }
+    .card { padding: 16px 14px; border-radius: 10px; }
+    .card::before { left: 14px; right: 14px; }
+    .card h3 { font-size: 15px; }
+    .card .desc { font-size: 11px; margin-bottom: 12px; }
+
+    .two-donuts { flex-direction: column; gap: 20px; }
+
+    .footer { padding: 20px 16px; }
+    .footer-inner { flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 380px) {
+    .header h1 { font-size: 17px; }
+    .kpi .num { font-size: 20px; }
   }
 </style>
 </head>
 <body>
 
+<!-- Top navigation bar like managerkreis.de -->
+<div class="topbar">
+  <div class="topbar-logo">M</div>
+  <div class="topbar-text">Managerkreis</div>
+</div>
+
+<!-- Red hero header like the website -->
 <div class="header">
-  <div class="header-logo">M</div>
-  <h1>Managerkreis – Mitglieder-Dashboard</h1>
-  <p>Auswertung der Mitgliederdaten · Stand Mai 2026</p>
+  <div class="header-inner">
+    <h1>Mitglieder-<b>Dashboard</b></h1>
+    <p>Auswertung der Mitgliederdaten · Stand Mai 2026</p>
+  </div>
 </div>
 
 <div class="container">
 
-  <!-- KPI Row -->
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="value">255</div>
-      <div class="label">Mitglieder gesamt</div>
-    </div>
-    <div class="kpi-card">
-      <div class="value">196</div>
-      <div class="label">Aktuell berufstätig</div>
-      <div class="sub">76,9 % der Mitglieder</div>
-    </div>
-    <div class="kpi-card">
-      <div class="value">54,0</div>
-      <div class="label">Durchschnittsalter</div>
-      <div class="sub">Spanne: 23 – 85 Jahre</div>
-    </div>
-    <div class="kpi-card">
-      <div class="value">83,9 %</div>
-      <div class="label">Männeranteil</div>
-      <div class="sub">≈ 214 m / 41 w</div>
-    </div>
-    <div class="kpi-card">
-      <div class="value">71,8 %</div>
-      <div class="label">Daten vollständig</div>
-      <div class="sub">183 von 255 mit Branche</div>
-    </div>
+  <div class="kpi-strip">
+    <div class="kpi"><div class="num">255</div><div class="lbl">Mitglieder</div></div>
+    <div class="kpi"><div class="num">196</div><div class="lbl">Berufstätig</div><div class="sub">76,9 %</div></div>
+    <div class="kpi"><div class="num">54</div><div class="lbl">Ø Alter</div><div class="sub">23 – 85 J.</div></div>
+    <div class="kpi"><div class="num">16 %</div><div class="lbl">Frauenanteil</div><div class="sub">≈ 41 von 255</div></div>
+    <div class="kpi"><div class="num">72 %</div><div class="lbl">Daten komplett</div><div class="sub">183 mit Branche</div></div>
   </div>
 
-  <!-- Charts -->
-  <div class="chart-grid">
+  <div class="grid">
 
-    <!-- Branchenverteilung -->
-    <div class="chart-card full">
+    <div class="card span">
       <h3>Branchenverteilung</h3>
-      <div class="chart-sub">Anzahl Mitglieder pro Branche (n = 183 mit Angabe)</div>
-      <div class="chart-wrap" style="height:420px;">
-        <canvas id="chartBranche"></canvas>
-      </div>
+      <div class="desc">Anzahl Mitglieder pro Branche · n = 183 mit Angabe</div>
+      <div class="chart-box" style="height:420px;"><canvas id="cBranche"></canvas></div>
     </div>
 
-    <!-- Altersstruktur -->
-    <div class="chart-card full">
+    <div class="card span">
       <h3>Altersstruktur</h3>
-      <div class="chart-sub">Verteilung nach Altersgruppen (n = 252 mit Angabe)</div>
-      <div class="chart-wrap" style="height:360px;">
-        <canvas id="chartAlter"></canvas>
-      </div>
+      <div class="desc">Verteilung nach Altersgruppen · n = 252 mit Angabe</div>
+      <div class="chart-box" style="height:340px;"><canvas id="cAlter"></canvas></div>
     </div>
 
-    <!-- Art der Position -->
-    <div class="chart-card">
+    <div class="card">
       <h3>Art der Position</h3>
-      <div class="chart-sub">n = 214 mit Angabe</div>
-      <div class="chart-wrap" style="height:320px;">
-        <canvas id="chartPosition"></canvas>
-      </div>
+      <div class="desc">n = 214 mit Angabe</div>
+      <div class="chart-box" style="height:400px;"><canvas id="cPos"></canvas></div>
     </div>
 
-    <!-- Berufstätigkeit -->
-    <div class="chart-card">
+    <div class="card">
       <h3>Berufstätigkeit & Geschlecht</h3>
-      <div class="chart-sub">Aktuell in Position tätig</div>
-      <div class="chart-wrap" style="height:320px; display:flex; gap:20px;">
-        <div style="flex:1; position:relative;"><canvas id="chartTaetig"></canvas></div>
-        <div style="flex:1; position:relative;"><canvas id="chartGender"></canvas></div>
+      <div class="desc">Aktuelle Tätigkeit · Geschätzte Geschlechterverteilung</div>
+      <div class="two-donuts" style="min-height:340px;">
+        <div>
+          <div class="donut-label">Berufstätigkeit</div>
+          <canvas id="cTaetig"></canvas>
+        </div>
+        <div>
+          <div class="donut-label">Geschlecht</div>
+          <canvas id="cGender"></canvas>
+        </div>
       </div>
     </div>
 
-    <!-- Datenvollständigkeit -->
-    <div class="chart-card full">
+    <div class="card span">
       <h3>Datenvollständigkeit</h3>
-      <div class="chart-sub">Anteil ausgefüllter Felder je Kategorie</div>
-      <div class="chart-wrap" style="height:140px;">
-        <canvas id="chartData"></canvas>
-      </div>
+      <div class="desc">Anteil ausgefüllter Felder je Kategorie</div>
+      <div class="chart-box" style="height:160px;"><canvas id="cData"></canvas></div>
     </div>
 
   </div>
 </div>
 
+<!-- Dark maroon footer like managerkreis.de -->
 <div class="footer">
-  Managerkreis – Mitglieder-Dashboard · Datenstand Mai 2026 · Automatisch erstellt
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">M</div>
+      <span>Managerkreis e.V. · Mitglieder-Dashboard</span>
+    </div>
+    <div>
+      <a href="https://www.managerkreis.de">managerkreis.de</a>
+    </div>
+  </div>
 </div>
 
 <script>
-Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.family = "'DM Sans', sans-serif";
 Chart.defaults.font.size = 12;
-Chart.defaults.color = '#4F5D75';
+Chart.defaults.color = '#6B6B6B';
 
-const RED_DARK = '#8B1A1A';
-const RED_PRIMARY = '#A51E22';
-const RED_MEDIUM = '#C62828';
-const RED_LIGHT = '#D44F4F';
-const RED_LIGHTER = '#E57373';
-const RED_PALE = '#FFCDD2';
-const DARK = '#2D3142';
-const GRAY = '#8D99AE';
+// Brand colors matching managerkreis.de
+const C = {
+  red: '#E30613',
+  redDark: '#B71C1C',
+  redDarker: '#7B0D0D',
+  maroon: '#3D1010',
+  pinkBg: '#FDE8E8',
+  pinkLight: '#F8C9C9',
+  pinkSoft: '#F1948A',
+  pinkGhost: '#FEF0F0',
+  text: '#1E1E1E',
+};
 
-// Gradient helper
-function redGradient(count) {
-  const colors = [];
-  for (let i = 0; i < count; i++) {
-    const t = count === 1 ? 0 : i / (count - 1);
-    const r = Math.round(139 + t * (229 - 139));
-    const g = Math.round(26 + t * (115 - 26));
-    const b = Math.round(26 + t * (115 - 26));
-    colors.push(`rgb(${r},${g},${b})`);
+// Red gradient matching the Germany map on the website (pale pink → deep maroon)
+function grad(n) {
+  const stops = [
+    [253,232,232], // pale pink
+    [248,201,201], // light pink
+    [241,148,138], // soft pink-red
+    [227,6,19],    // brand red
+    [183,28,28],   // dark red
+    [123,13,13],   // darker
+    [61,16,16],    // maroon
+  ];
+  const o = [];
+  for (let i = 0; i < n; i++) {
+    const t = n === 1 ? 0 : i / (n - 1);
+    const pos = t * (stops.length - 1);
+    const lo = Math.floor(pos);
+    const hi = Math.min(lo + 1, stops.length - 1);
+    const f = pos - lo;
+    const r = Math.round(stops[lo][0] + f * (stops[hi][0] - stops[lo][0]));
+    const g = Math.round(stops[lo][1] + f * (stops[hi][1] - stops[lo][1]));
+    const b = Math.round(stops[lo][2] + f * (stops[hi][2] - stops[lo][2]));
+    o.push(`rgb(${r},${g},${b})`);
   }
-  return colors;
+  return o;
 }
 
-// ============ BRANCHENVERTEILUNG ============
-new Chart(document.getElementById('chartBranche'), {
+const mob = () => window.innerWidth < 600;
+const tsz = () => mob() ? 10 : 12;
+
+const tooltip = {
+  backgroundColor: C.maroon,
+  titleColor: '#fff',
+  bodyColor: '#fff',
+  padding: 10,
+  cornerRadius: 6,
+  titleFont: { weight: '600', size: 13 },
+  bodyFont: { size: 12 },
+};
+
+// ===== BRANCHEN =====
+new Chart(document.getElementById('cBranche'), {
   type: 'bar',
   data: {
     labels: [
-      'Beratung / Consulting',
-      'Banken / Finanzdienstl.',
-      'Öffentlicher Sektor',
-      'Non-Profit / Verbände',
-      'Transport / Logistik',
-      'Recht / Wirtschaftsprüfung',
-      'Energie / Versorgung',
-      'Medien / Kommunikation',
-      'Industrie / Produktion',
-      'IT / Software / Technologie',
-      'Gesundheit / Pharma',
-      'Immobilien / Bau',
-      'Bildung / Wissenschaft',
-      'Versicherungen',
-      'Handel / Konsumgüter',
-      'Handwerk',
-      'Sonstiges'
+      'Beratung / Consulting','Banken / Finanzdienstl.','Öffentlicher Sektor',
+      'Non-Profit / Verbände','Transport / Logistik','Recht / Wirtschaftspr.',
+      'Energie / Versorgung','Medien / Kommunikation','Industrie / Produktion',
+      'IT / Software / Tech.','Gesundheit / Pharma','Immobilien / Bau',
+      'Bildung / Wissenschaft','Versicherungen','Handel / Konsumgüter',
+      'Handwerk','Sonstiges'
     ],
     datasets: [{
       data: [30,23,20,17,13,11,11,10,9,9,7,7,6,4,4,1,1],
-      backgroundColor: redGradient(17),
-      borderRadius: 4,
-      barThickness: 18,
+      backgroundColor: grad(17),
+      borderRadius: 3,
+      maxBarThickness: 18,
     }]
   },
   options: {
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: {
-        backgroundColor: DARK,
-        titleFont: { weight: '600' },
-        callbacks: {
-          label: ctx => `${ctx.raw} Mitglieder`
-        }
-      }
+      tooltip: { ...tooltip,
+        callbacks: { label: c => ` ${c.raw} Mitglieder (${(c.raw/183*100).toFixed(1)} %)` } }
     },
     scales: {
-      x: {
-        grid: { color: '#EDF2F4' },
-        ticks: { stepSize: 5 },
-        title: { display: true, text: 'Anzahl Mitglieder', font: { size: 11, weight: '500' } }
-      },
-      y: {
-        grid: { display: false },
-        ticks: { font: { size: 12 } }
-      }
+      x: { grid: { color: '#f5eded' }, ticks: { stepSize: 5, font: { size: tsz() } },
+           title: { display: !mob(), text: 'Anzahl Mitglieder', font: { size: 11, weight: '500' }, color: '#999' } },
+      y: { grid: { display: false }, ticks: { font: { size: tsz() }, color: '#444' } }
     }
   }
 });
 
-// ============ ALTERSSTRUKTUR ============
-new Chart(document.getElementById('chartAlter'), {
+// ===== ALTER =====
+new Chart(document.getElementById('cAlter'), {
   type: 'bar',
   data: {
     labels: ['bis 30','31–35','36–40','41–45','46–50','51–55','56–60','61–65','66–70','71–75','76–80','81+'],
     datasets: [{
       data: [12,16,29,20,24,25,42,29,24,10,11,10],
-      backgroundColor: redGradient(12),
-      borderRadius: 4,
-      barThickness: 20,
+      backgroundColor: grad(12),
+      borderRadius: 3, maxBarThickness: 20,
     }]
   },
   options: {
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
-      tooltip: {
-        backgroundColor: DARK,
-        callbacks: {
-          label: ctx => `${ctx.raw} Mitglieder`
-        }
-      }
+      tooltip: { ...tooltip,
+        callbacks: { label: c => ` ${c.raw} Mitglieder (${(c.raw/252*100).toFixed(1)} %)` } }
     },
     scales: {
-      x: {
-        grid: { color: '#EDF2F4' },
-        title: { display: true, text: 'Anzahl Mitglieder', font: { size: 11, weight: '500' } }
-      },
-      y: {
-        grid: { display: false },
-        ticks: { font: { size: 12 } }
-      }
+      x: { grid: { color: '#f5eded' }, ticks: { font: { size: tsz() } },
+           title: { display: !mob(), text: 'Anzahl Mitglieder', font: { size: 11, weight: '500' }, color: '#999' } },
+      y: { grid: { display: false }, ticks: { font: { size: tsz() }, color: '#444' } }
     }
   }
 });
 
-// ============ ART DER POSITION (Donut) ============
-new Chart(document.getElementById('chartPosition'), {
+// ===== POSITION (Donut) =====
+new Chart(document.getElementById('cPos'), {
   type: 'doughnut',
   data: {
-    labels: [
-      'Vorstand / GF (95)',
-      'Bereichs-/Abt.leitung (43)',
-      'Experte/in (27)',
-      'Unternehmer/in (13)',
-      'Team-/Projektleitung (12)',
-      'Sonstiges (12)',
-      'Freiberufler/in (6)',
-      'Stabsstelle (6)'
-    ],
+    labels: ['Vorstand / GF (95)','Bereichs-/Abt.ltg. (43)','Experte/in (27)',
+             'Unternehmer/in (13)','Team-/Proj.ltg. (12)','Sonstiges (12)',
+             'Freiberufler/in (6)','Stabsstelle (6)'],
     datasets: [{
       data: [95,43,27,13,12,12,6,6],
-      backgroundColor: [
-        RED_DARK, RED_PRIMARY, RED_MEDIUM, RED_LIGHT,
-        RED_LIGHTER, '#F09090', RED_PALE, '#FFE0E0'
-      ],
-      borderWidth: 2,
-      borderColor: '#fff',
+      backgroundColor: [C.maroon, C.redDarker, C.redDark, C.red, C.pinkSoft, C.pinkLight, C.pinkBg, C.pinkGhost],
+      borderWidth: 2, borderColor: '#fff',
     }]
   },
   options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '55%',
+    responsive: true, maintainAspectRatio: false, cutout: '50%',
     plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { padding: 10, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded' }
-      },
-      tooltip: {
-        backgroundColor: DARK,
-        callbacks: {
-          label: ctx => {
-            const pct = (ctx.raw / 214 * 100).toFixed(1);
-            return ` ${ctx.raw} Mitglieder (${pct} %)`;
-          }
-        }
-      }
+      legend: { position: 'bottom',
+        labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
+      tooltip: { ...tooltip,
+        callbacks: { label: c => ` ${c.raw} (${(c.raw/214*100).toFixed(1)} %)` } }
     }
   }
 });
 
-// ============ BERUFSTÄTIGKEIT (Donut) ============
-new Chart(document.getElementById('chartTaetig'), {
+// ===== BERUFSTÄTIG =====
+new Chart(document.getElementById('cTaetig'), {
   type: 'doughnut',
   data: {
     labels: ['Berufstätig (196)', 'Nicht tätig (59)'],
-    datasets: [{
-      data: [196, 59],
-      backgroundColor: [RED_PRIMARY, RED_PALE],
-      borderWidth: 2,
-      borderColor: '#fff',
-    }]
+    datasets: [{ data: [196, 59], backgroundColor: [C.red, C.pinkBg], borderWidth: 2, borderColor: '#fff' }]
   },
   options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '60%',
+    responsive: true, maintainAspectRatio: true, cutout: '58%',
     plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded' }
-      },
-      tooltip: {
-        backgroundColor: DARK,
-        callbacks: {
-          label: ctx => {
-            const pct = (ctx.raw / 255 * 100).toFixed(1);
-            return ` ${ctx.raw} (${pct} %)`;
-          }
-        }
-      }
+      legend: { position: 'bottom',
+        labels: { padding: 6, font: { size: 10 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 8, color: '#444' } },
+      tooltip: { ...tooltip,
+        callbacks: { label: c => ` ${c.raw} (${(c.raw/255*100).toFixed(1)} %)` } }
     }
   }
 });
 
-// ============ GESCHLECHT (Donut) ============
-new Chart(document.getElementById('chartGender'), {
+// ===== GESCHLECHT =====
+new Chart(document.getElementById('cGender'), {
   type: 'doughnut',
   data: {
     labels: ['Männlich (≈214)', 'Weiblich (≈41)'],
-    datasets: [{
-      data: [214, 41],
-      backgroundColor: [RED_DARK, RED_LIGHTER],
-      borderWidth: 2,
-      borderColor: '#fff',
-    }]
+    datasets: [{ data: [214, 41], backgroundColor: [C.maroon, C.pinkSoft], borderWidth: 2, borderColor: '#fff' }]
   },
   options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '60%',
+    responsive: true, maintainAspectRatio: true, cutout: '58%',
     plugins: {
-      legend: {
-        position: 'bottom',
-        labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded' }
-      },
-      tooltip: {
-        backgroundColor: DARK,
-        callbacks: {
-          label: ctx => {
-            const pct = (ctx.raw / 255 * 100).toFixed(1);
-            return ` ≈${ctx.raw} (${pct} %)`;
-          }
-        }
-      }
+      legend: { position: 'bottom',
+        labels: { padding: 6, font: { size: 10 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 8, color: '#444' } },
+      tooltip: { ...tooltip,
+        callbacks: { label: c => ` ≈${c.raw} (${(c.raw/255*100).toFixed(1)} %)` } }
     }
   }
 });
 
-// ============ DATENVOLLSTÄNDIGKEIT ============
-new Chart(document.getElementById('chartData'), {
+// ===== DATENVOLLSTÄNDIGKEIT =====
+new Chart(document.getElementById('cData'), {
   type: 'bar',
   data: {
     labels: ['Alter', 'Positionsart', 'Branche', 'Unternehmen'],
     datasets: [
-      {
-        label: 'Ausgefüllt',
-        data: [252, 214, 183, 178],
-        backgroundColor: RED_PRIMARY,
-        borderRadius: 4,
-        barThickness: 16,
-      },
-      {
-        label: 'Fehlend',
-        data: [3, 41, 72, 77],
-        backgroundColor: RED_PALE,
-        borderRadius: 4,
-        barThickness: 16,
-      }
+      { label: 'Ausgefüllt', data: [252,214,183,178], backgroundColor: C.red, borderRadius: 3, maxBarThickness: 16 },
+      { label: 'Fehlend', data: [3,41,72,77], backgroundColor: C.pinkBg, borderRadius: 3, maxBarThickness: 16 }
     ]
   },
   options: {
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: 'top',
-        align: 'end',
-        labels: { font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded' }
-      },
-      tooltip: {
-        backgroundColor: DARK,
-        callbacks: {
-          label: ctx => ` ${ctx.dataset.label}: ${ctx.raw} (${(ctx.raw/255*100).toFixed(0)} %)`
-        }
-      }
+      legend: { position: 'top', align: 'end',
+        labels: { font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
+      tooltip: { ...tooltip,
+        callbacks: { label: c => ` ${c.dataset.label}: ${c.raw} (${(c.raw/255*100).toFixed(0)} %)` } }
     },
     scales: {
-      x: {
-        stacked: true,
-        grid: { color: '#EDF2F4' },
-        max: 255,
-        ticks: { stepSize: 50 }
-      },
-      y: {
-        stacked: true,
-        grid: { display: false },
-        ticks: { font: { size: 12, weight: '500' } }
-      }
+      x: { stacked: true, grid: { color: '#f5eded' }, max: 255, ticks: { stepSize: 50 } },
+      y: { stacked: true, grid: { display: false }, ticks: { font: { size: tsz(), weight: '500' }, color: '#444' } }
     }
   }
 });
