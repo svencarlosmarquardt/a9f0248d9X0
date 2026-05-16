@@ -13,7 +13,6 @@
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    /* Managerkreis brand – from website screenshots */
     --mk-red: #E30613;
     --mk-red-dark: #B71C1C;
     --mk-red-darker: #7B0D0D;
@@ -28,6 +27,7 @@
     --mk-text-muted: #6B6B6B;
     --mk-text-light: #999999;
     --mk-border: #F0E8E8;
+    --mk-gray: #D5D5D5;
     --radius: 12px;
   }
 
@@ -39,7 +39,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ===== HEADER – red hero like website ===== */
   .header {
     background: var(--mk-red);
     color: var(--mk-white);
@@ -48,233 +47,149 @@
     position: relative;
     overflow: hidden;
   }
-
-  /* Diagonal decorative lines like the website hero */
   .header::before {
     content: '';
     position: absolute;
     top: -40%; right: -10%;
     width: 60%; height: 200%;
     background: repeating-linear-gradient(
-      -30deg,
-      transparent,
-      transparent 40px,
-      rgba(255,255,255,0.06) 40px,
-      rgba(255,255,255,0.06) 42px
+      -30deg, transparent, transparent 40px,
+      rgba(255,255,255,0.06) 40px, rgba(255,255,255,0.06) 42px
     );
     pointer-events: none;
   }
-
   .header-inner { position: relative; z-index: 1; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 4px; }
+  .header p { font-size: 14px; color: rgba(255,255,255,0.7); }
 
-  .header-logo {
-    width: 52px; height: 52px;
-    background: var(--mk-white);
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    font-size: 24px; font-weight: 700;
-    color: var(--mk-red);
-    margin-bottom: 14px;
-  }
-
-  .header h1 {
-    font-size: 28px; font-weight: 700;
-    letter-spacing: -0.3px;
-    margin-bottom: 4px;
-  }
-  .header h1 b { font-weight: 700; }
-
-  .header p {
-    font-size: 14px;
-    color: rgba(255,255,255,0.7);
-    font-weight: 400;
-  }
-
-  /* ===== NAV BAR ===== */
   .topbar {
     background: var(--mk-white);
     padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: flex; align-items: center; gap: 12px;
     border-bottom: 1px solid var(--mk-border);
   }
-
   .topbar-logo {
     width: 36px; height: 36px;
-    background: var(--mk-red);
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 700;
-    color: var(--mk-white);
-    flex-shrink: 0;
+    background: var(--mk-red); border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: var(--mk-white); flex-shrink: 0;
   }
+  .topbar-text { font-size: 16px; font-weight: 600; color: var(--mk-text); }
 
-  .topbar-text {
-    font-size: 16px; font-weight: 600;
-    color: var(--mk-text);
+  .container { max-width: 1120px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  /* Toggle */
+  .toggle-bar {
+    display: flex; align-items: center; justify-content: flex-start;
+    gap: 10px; margin-bottom: 16px;
   }
-
-  /* ===== CONTAINER ===== */
-  .container {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 24px 16px 48px;
+  .toggle-bar label {
+    font-size: 13px; font-weight: 500; color: var(--mk-text-muted);
+    cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 8px;
   }
-
-  /* ===== KPI ===== */
-  .kpi-strip {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-
-  .kpi {
-    background: var(--mk-white);
-    border-radius: var(--radius);
-    padding: 20px 12px;
-    text-align: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  .toggle-switch {
     position: relative;
-    overflow: hidden;
+    width: 44px; height: 24px;
+    display: inline-block;
+  }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--mk-gray); border-radius: 12px;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute; top: 3px; left: 3px;
+    width: 18px; height: 18px;
+    background: var(--mk-white); border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle-switch input:checked + .toggle-slider { background: var(--mk-red); }
+  .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+  /* KPI */
+  .kpi-strip {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 12px; margin-bottom: 24px;
+  }
+  .kpi {
+    background: var(--mk-white); border-radius: var(--radius);
+    padding: 20px 12px; text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    position: relative; overflow: hidden;
   }
   .kpi::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--mk-red);
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--mk-red);
   }
-  .kpi .num {
-    font-size: 30px; font-weight: 700;
-    color: var(--mk-red); line-height: 1.1;
-  }
+  .kpi .num { font-size: 30px; font-weight: 700; color: var(--mk-red); line-height: 1.1; }
   .kpi .lbl {
-    font-size: 11px; font-weight: 600;
-    color: var(--mk-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 6px;
+    font-size: 11px; font-weight: 600; color: var(--mk-text-muted);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px;
   }
-  .kpi .sub {
-    font-size: 11px; color: var(--mk-text-light); margin-top: 2px;
-  }
+  .kpi .sub { font-size: 11px; color: var(--mk-text-light); margin-top: 2px; }
 
-  /* ===== CARDS ===== */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
+  /* Cards */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .card {
-    background: var(--mk-white);
-    border-radius: var(--radius);
-    padding: 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    position: relative;
-    overflow: hidden;
+    background: var(--mk-white); border-radius: var(--radius);
+    padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    position: relative; overflow: hidden;
   }
-
-  /* Red top accent line like the event cards on the website */
   .card::before {
-    content: '';
-    position: absolute; top: 0; left: 24px; right: 24px;
-    height: 3px;
-    background: var(--mk-red);
-    border-radius: 0 0 2px 2px;
+    content: ''; position: absolute; top: 0; left: 24px; right: 24px;
+    height: 3px; background: var(--mk-red); border-radius: 0 0 2px 2px;
   }
-
   .card.span { grid-column: 1 / -1; }
-
-  .card h3 {
-    font-size: 18px; font-weight: 700;
-    color: var(--mk-text);
-    margin-bottom: 2px;
-  }
-  .card .desc {
-    font-size: 13px; color: var(--mk-text-light);
-    margin-bottom: 16px;
-  }
-
+  .card h3 { font-size: 18px; font-weight: 700; color: var(--mk-text); margin-bottom: 2px; }
+  .card .desc { font-size: 13px; color: var(--mk-text-light); margin-bottom: 16px; }
   .chart-box { position: relative; }
 
-
-  /* ===== FOOTER – dark maroon like website ===== */
+  /* Footer */
   .footer {
-    background: var(--mk-maroon-deep);
-    color: rgba(255,255,255,0.5);
-    padding: 28px 24px;
-    font-size: 13px;
+    background: var(--mk-maroon-deep); color: rgba(255,255,255,0.5);
+    padding: 28px 24px; font-size: 13px;
   }
-
   .footer-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
+    max-width: 1120px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
   }
-
-  .footer-left {
-    display: flex; align-items: center; gap: 12px;
-  }
-
+  .footer-left { display: flex; align-items: center; gap: 12px; }
   .footer-logo {
-    width: 36px; height: 36px;
-    background: var(--mk-red);
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center; justify-content: center;
-    font-size: 18px; font-weight: 700;
-    color: var(--mk-white);
-    flex-shrink: 0;
+    width: 36px; height: 36px; background: var(--mk-red); border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: var(--mk-white); flex-shrink: 0;
   }
-
-  .footer a {
-    color: rgba(255,255,255,0.7);
-    text-decoration: none;
-  }
+  .footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
   .footer a:hover { color: var(--mk-white); }
 
-  /* ===== RESPONSIVE ===== */
   @media (max-width: 960px) {
     .grid { grid-template-columns: 1fr; }
     .card.span { grid-column: auto; }
     .kpi-strip { grid-template-columns: repeat(3, 1fr); }
   }
-
   @media (max-width: 600px) {
     .topbar { padding: 10px 16px; }
     .topbar-text { font-size: 14px; }
-
     .header { padding: 28px 16px 24px; }
     .header h1 { font-size: 20px; }
-    .header-logo { width: 44px; height: 44px; font-size: 20px; margin-bottom: 10px; }
-    .header p { font-size: 12px; }
-
     .container { padding: 16px 10px 32px; }
-
     .kpi-strip { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
     .kpi { padding: 14px 8px; border-radius: 10px; }
     .kpi .num { font-size: 22px; }
     .kpi .lbl { font-size: 10px; }
     .kpi .sub { font-size: 10px; }
-
     .grid { gap: 10px; }
     .card { padding: 16px 14px; border-radius: 10px; }
     .card::before { left: 14px; right: 14px; }
     .card h3 { font-size: 15px; }
     .card .desc { font-size: 11px; margin-bottom: 12px; }
-
     .footer { padding: 20px 16px; }
     .footer-inner { flex-direction: column; text-align: center; }
   }
-
   @media (max-width: 380px) {
     .header h1 { font-size: 17px; }
     .kpi .num { font-size: 20px; }
@@ -283,13 +198,11 @@
 </head>
 <body>
 
-<!-- Top navigation bar like managerkreis.de -->
 <div class="topbar">
   <div class="topbar-logo">M</div>
   <div class="topbar-text">Managerkreis</div>
 </div>
 
-<!-- Red hero header like the website -->
 <div class="header">
   <div class="header-inner">
     <h1>Mitglieder-<b>Dashboard</b></h1>
@@ -307,23 +220,32 @@
     <div class="kpi"><div class="num">72 %</div><div class="lbl">Daten komplett</div><div class="sub">184 mit Branche</div></div>
   </div>
 
-  <div class="grid">
+  <div class="toggle-bar">
+    <label>
+      <span class="toggle-switch">
+        <input type="checkbox" id="toggleNA" checked>
+        <span class="toggle-slider"></span>
+      </span>
+      Wert „Keine Angabe" einbeziehen
+    </label>
+  </div>
 
+  <div class="grid">
     <div class="card span">
       <h3>Branchenverteilung</h3>
-      <div class="desc">Anzahl Mitglieder pro Branche · n = 256</div>
+      <div class="desc" id="descBranche"></div>
       <div class="chart-box" style="height:460px;"><canvas id="cBranche"></canvas></div>
     </div>
 
     <div class="card span">
       <h3>Altersstruktur</h3>
-      <div class="desc">Verteilung nach Altersgruppen · n = 256 (3 ohne Angabe)</div>
+      <div class="desc" id="descAlter"></div>
       <div class="chart-box" style="height:380px;"><canvas id="cAlter"></canvas></div>
     </div>
 
     <div class="card">
       <h3>Art der Position</h3>
-      <div class="desc">n = 256</div>
+      <div class="desc" id="descPos"></div>
       <div class="chart-box" style="height:420px;"><canvas id="cPos"></canvas></div>
     </div>
 
@@ -335,7 +257,7 @@
 
     <div class="card">
       <h3>Unternehmensgröße</h3>
-      <div class="desc">n = 256</div>
+      <div class="desc" id="descSize"></div>
       <div class="chart-box" style="height:320px;"><canvas id="cSize"></canvas></div>
     </div>
 
@@ -350,20 +272,16 @@
       <div class="desc">Anteil ausgefüllter Felder je Kategorie · n = 256</div>
       <div class="chart-box" style="height:190px;"><canvas id="cData"></canvas></div>
     </div>
-
   </div>
 </div>
 
-<!-- Dark maroon footer like managerkreis.de -->
 <div class="footer">
   <div class="footer-inner">
     <div class="footer-left">
       <div class="footer-logo">M</div>
       <span>Managerkreis e.V. · Mitglieder-Dashboard</span>
     </div>
-    <div>
-      <a href="https://www.managerkreis.de">managerkreis.de</a>
-    </div>
+    <div><a href="https://www.managerkreis.de">managerkreis.de</a></div>
   </div>
 </div>
 
@@ -372,225 +290,237 @@ Chart.defaults.font.family = "'DM Sans', sans-serif";
 Chart.defaults.font.size = 12;
 Chart.defaults.color = '#6B6B6B';
 
-// Brand colors matching managerkreis.de
 const C = {
-  red: '#E30613',
-  redDark: '#B71C1C',
-  redDarker: '#7B0D0D',
-  maroon: '#3D1010',
-  pinkBg: '#FDE8E8',
-  pinkLight: '#F8C9C9',
-  pinkSoft: '#F1948A',
-  pinkGhost: '#FEF0F0',
-  text: '#1E1E1E',
+  red: '#E30613', redDark: '#B71C1C', redDarker: '#7B0D0D',
+  maroon: '#3D1010', pinkBg: '#FDE8E8', pinkLight: '#F8C9C9',
+  pinkSoft: '#F1948A', pinkGhost: '#FEF0F0', gray: '#D5D5D5',
 };
 
-// Red gradient matching the Germany map on the website (pale pink → deep maroon)
 function grad(n) {
   const stops = [
-    [253,232,232], // pale pink
-    [248,201,201], // light pink
-    [241,148,138], // soft pink-red
-    [227,6,19],    // brand red
-    [183,28,28],   // dark red
-    [123,13,13],   // darker
-    [61,16,16],    // maroon
+    [253,232,232],[248,201,201],[241,148,138],
+    [227,6,19],[183,28,28],[123,13,13],[61,16,16],
   ];
   const o = [];
   for (let i = 0; i < n; i++) {
     const t = n === 1 ? 0 : i / (n - 1);
-    const pos = t * (stops.length - 1);
-    const lo = Math.floor(pos);
-    const hi = Math.min(lo + 1, stops.length - 1);
-    const f = pos - lo;
-    const r = Math.round(stops[lo][0] + f * (stops[hi][0] - stops[lo][0]));
-    const g = Math.round(stops[lo][1] + f * (stops[hi][1] - stops[lo][1]));
-    const b = Math.round(stops[lo][2] + f * (stops[hi][2] - stops[lo][2]));
-    o.push(`rgb(${r},${g},${b})`);
+    const p = t * (stops.length - 1);
+    const lo = Math.floor(p), hi = Math.min(lo + 1, stops.length - 1), f = p - lo;
+    o.push(`rgb(${Math.round(stops[lo][0]+f*(stops[hi][0]-stops[lo][0]))},${Math.round(stops[lo][1]+f*(stops[hi][1]-stops[lo][1]))},${Math.round(stops[lo][2]+f*(stops[hi][2]-stops[lo][2]))})`)
   }
   return o;
 }
 
 const mob = () => window.innerWidth < 600;
 const tsz = () => mob() ? 10 : 12;
+const N = 256;
 
-const tooltip = {
-  backgroundColor: C.maroon,
-  titleColor: '#fff',
-  bodyColor: '#fff',
-  padding: 10,
-  cornerRadius: 6,
-  titleFont: { weight: '600', size: 13 },
-  bodyFont: { size: 12 },
+const tt = {
+  backgroundColor: C.maroon, titleColor: '#fff', bodyColor: '#fff',
+  padding: 10, cornerRadius: 6,
+  titleFont: { weight: '600', size: 13 }, bodyFont: { size: 12 },
 };
 
-// ===== BRANCHEN =====
-new Chart(document.getElementById('cBranche'), {
-  type: 'bar',
-  data: {
-    labels: [
-      'Keine Angabe',
-      'Beratung / Consulting','Banken / Finanzdienstl.','Öffentlicher Sektor',
-      'Non-Profit / Verbände','Transport / Logistik','Recht / Wirtschaftspr.',
-      'Energie / Versorgung','Medien / Kommunikation','Industrie / Produktion',
-      'IT / Software / Tech.','Gesundheit / Pharma','Immobilien / Bau',
-      'Bildung / Wissenschaft','Versicherungen','Handel / Konsumgüter',
-      'Handwerk','Sonstiges'
-    ],
-    datasets: [{
-      data: [72,30,24,20,17,13,11,11,10,9,9,7,7,6,4,4,1,1],
-      backgroundColor: ['#D5D5D5', ...grad(17)],
-      borderRadius: 3,
-      maxBarThickness: 18,
-    }]
-  },
-  options: {
-    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { ...tooltip,
-        callbacks: { label: c => ` ${c.raw} Mitglieder (${(c.raw/256*100).toFixed(1)} %)` } }
+// ===== CHART INSTANCES =====
+let charts = {};
+
+function destroyAll() {
+  Object.values(charts).forEach(c => c.destroy());
+  charts = {};
+}
+
+function buildAll() {
+  destroyAll();
+  const showNA = document.getElementById('toggleNA').checked;
+
+  // ===== BRANCHEN =====
+  const brLabels = [
+    'Beratung / Consulting','Banken / Finanzdienstl.','Öffentlicher Sektor',
+    'Non-Profit / Verbände','Transport / Logistik','Recht / Wirtschaftspr.',
+    'Energie / Versorgung','Medien / Kommunikation','Industrie / Produktion',
+    'IT / Software / Tech.','Gesundheit / Pharma','Immobilien / Bau',
+    'Bildung / Wissenschaft','Versicherungen','Handel / Konsumgüter',
+    'Handwerk','Sonstiges'
+  ];
+  const brData = [30,24,20,17,13,11,11,10,9,9,7,7,6,4,4,1,1];
+  const brColors = grad(17);
+  const brN = showNA ? N : 184;
+
+  if (showNA) {
+    brLabels.push('Keine Angabe');
+    brData.push(72);
+    brColors.push(C.gray);
+  }
+
+  document.getElementById('descBranche').textContent =
+    `Anzahl Mitglieder pro Branche · n = ${brN}`;
+
+  charts.branche = new Chart(document.getElementById('cBranche'), {
+    type: 'bar',
+    data: { labels: brLabels, datasets: [{ data: brData, backgroundColor: brColors, borderRadius: 3, maxBarThickness: 18 }] },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { ...tt, callbacks: { label: c => ` ${c.raw} Mitglieder (${(c.raw/brN*100).toFixed(1)} %)` } } },
+      scales: {
+        x: { grid: { color: '#f5eded' }, ticks: { stepSize: 10, font: { size: tsz() } },
+             title: { display: !mob(), text: 'Anzahl Mitglieder', font: { size: 11, weight: '500' }, color: '#999' } },
+        y: { grid: { display: false }, ticks: { font: { size: tsz() }, color: '#444' } }
+      }
+    }
+  });
+
+  // ===== ALTER =====
+  const alLabels = ['bis 30','31–35','36–40','41–45','46–50','51–55','56–60','61–65','66–70','71–75','76–80','81+'];
+  const alData = [12,16,29,20,24,25,42,29,24,10,11,10];
+  const alColors = grad(12);
+  const alN = showNA ? N : 253;
+
+  if (showNA) {
+    alLabels.push('Keine Angabe');
+    alData.push(3);
+    alColors.push(C.gray);
+  }
+
+  document.getElementById('descAlter').textContent =
+    `Verteilung nach Altersgruppen · n = ${alN}`;
+
+  charts.alter = new Chart(document.getElementById('cAlter'), {
+    type: 'bar',
+    data: { labels: alLabels, datasets: [{ data: alData, backgroundColor: alColors, borderRadius: 3, maxBarThickness: 20 }] },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { ...tt, callbacks: { label: c => ` ${c.raw} Mitglieder (${(c.raw/alN*100).toFixed(1)} %)` } } },
+      scales: {
+        x: { grid: { color: '#f5eded' }, ticks: { font: { size: tsz() } },
+             title: { display: !mob(), text: 'Anzahl Mitglieder', font: { size: 11, weight: '500' }, color: '#999' } },
+        y: { grid: { display: false }, ticks: { font: { size: tsz() }, color: '#444' } }
+      }
+    }
+  });
+
+  // ===== POSITION =====
+  const poLabels = ['Vorstand / GF','Bereichs-/Abt.ltg.','Experte/in',
+                     'Unternehmer/in','Team-/Proj.ltg.','Sonstiges',
+                     'Freiberufler/in','Stabsstelle'];
+  const poData = [96,43,27,13,12,12,6,6];
+  const poColors = [C.maroon, C.redDarker, C.redDark, C.red, C.pinkSoft, C.pinkLight, C.pinkBg, C.pinkGhost];
+  const poN = showNA ? N : 215;
+
+  if (showNA) {
+    poLabels.push('Keine Angabe');
+    poData.push(41);
+    poColors.push(C.gray);
+  }
+
+  const poLabelsWithN = poLabels.map((l, i) => `${l} (${poData[i]})`);
+
+  document.getElementById('descPos').textContent = `n = ${poN}`;
+
+  charts.pos = new Chart(document.getElementById('cPos'), {
+    type: 'doughnut',
+    data: { labels: poLabelsWithN, datasets: [{ data: poData, backgroundColor: poColors, borderWidth: 2, borderColor: '#fff' }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '50%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
+        tooltip: { ...tt, callbacks: { label: c => ` ${c.raw} (${(c.raw/poN*100).toFixed(1)} %)` } }
+      }
+    }
+  });
+
+  // ===== BERUFSTÄTIG =====
+  charts.taetig = new Chart(document.getElementById('cTaetig'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Berufstätig (197)', 'Nicht tätig (59)'],
+      datasets: [{ data: [197, 59], backgroundColor: [C.red, C.pinkBg], borderWidth: 2, borderColor: '#fff' }]
     },
-    scales: {
-      x: { grid: { color: '#f5eded' }, ticks: { stepSize: 10, font: { size: tsz() } },
-           title: { display: !mob(), text: 'Anzahl Mitglieder', font: { size: 11, weight: '500' }, color: '#999' } },
-      y: { grid: { display: false }, ticks: { font: { size: tsz() }, color: '#444' } }
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '50%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
+        tooltip: { ...tt, callbacks: { label: c => ` ${c.raw} (${(c.raw/N*100).toFixed(1)} %)` } }
+      }
     }
-  }
-});
+  });
 
-// ===== ALTER =====
-new Chart(document.getElementById('cAlter'), {
-  type: 'bar',
-  data: {
-    labels: ['Keine Angabe','bis 30','31–35','36–40','41–45','46–50','51–55','56–60','61–65','66–70','71–75','76–80','81+'],
-    datasets: [{
-      data: [3,12,16,29,20,24,25,42,29,24,10,11,10],
-      backgroundColor: ['#D5D5D5', ...grad(12)],
-      borderRadius: 3, maxBarThickness: 20,
-    }]
-  },
-  options: {
-    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: { ...tooltip,
-        callbacks: { label: c => ` ${c.raw} Mitglieder (${(c.raw/256*100).toFixed(1)} %)` } }
+  // ===== UNTERNEHMENSGRÖSSE =====
+  // Order: Einzelperson → Kleinunternehmen → Mittelstand → Konzern → (Keine Angabe)
+  const szLabels = ['Einzelperson','Kleinunternehmen','Mittelstand','Konzern'];
+  const szData = [14,38,28,77];
+  const szColors = [C.pinkBg, C.pinkSoft, C.red, C.maroon];
+  const szN = showNA ? N : 157;
+
+  if (showNA) {
+    szLabels.push('Keine Angabe');
+    szData.push(99);
+    szColors.push(C.gray);
+  }
+
+  const szLabelsWithN = szLabels.map((l, i) => `${l} (${szData[i]})`);
+
+  document.getElementById('descSize').textContent = `n = ${szN}`;
+
+  charts.size = new Chart(document.getElementById('cSize'), {
+    type: 'doughnut',
+    data: { labels: szLabelsWithN, datasets: [{ data: szData, backgroundColor: szColors, borderWidth: 2, borderColor: '#fff' }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '50%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
+        tooltip: { ...tt, callbacks: { label: c => ` ${c.raw} (${(c.raw/szN*100).toFixed(1)} %)` } }
+      }
+    }
+  });
+
+  // ===== GESCHLECHT =====
+  charts.gender = new Chart(document.getElementById('cGender'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Männlich (≈215)', 'Weiblich (≈41)'],
+      datasets: [{ data: [215, 41], backgroundColor: [C.maroon, C.pinkSoft], borderWidth: 2, borderColor: '#fff' }]
     },
-    scales: {
-      x: { grid: { color: '#f5eded' }, ticks: { font: { size: tsz() } },
-           title: { display: !mob(), text: 'Anzahl Mitglieder', font: { size: 11, weight: '500' }, color: '#999' } },
-      y: { grid: { display: false }, ticks: { font: { size: tsz() }, color: '#444' } }
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '50%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
+        tooltip: { ...tt, callbacks: { label: c => ` ≈${c.raw} (${(c.raw/N*100).toFixed(1)} %)` } }
+      }
     }
-  }
-});
+  });
 
-// ===== POSITION (Donut) =====
-new Chart(document.getElementById('cPos'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Vorstand / GF (96)','Bereichs-/Abt.ltg. (43)','Keine Angabe (41)',
-             'Experte/in (27)','Unternehmer/in (13)','Team-/Proj.ltg. (12)','Sonstiges (12)',
-             'Freiberufler/in (6)','Stabsstelle (6)'],
-    datasets: [{
-      data: [96,43,41,27,13,12,12,6,6],
-      backgroundColor: [C.maroon, C.redDarker, '#D5D5D5', C.redDark, C.red, C.pinkSoft, C.pinkLight, C.pinkBg, C.pinkGhost],
-      borderWidth: 2, borderColor: '#fff',
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false, cutout: '50%',
-    plugins: {
-      legend: { position: 'bottom',
-        labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
-      tooltip: { ...tooltip,
-        callbacks: { label: c => ` ${c.raw} (${(c.raw/256*100).toFixed(1)} %)` } }
-    }
-  }
-});
-
-// ===== BERUFSTÄTIG =====
-new Chart(document.getElementById('cTaetig'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Berufstätig (197)', 'Nicht tätig (59)'],
-    datasets: [{ data: [197, 59], backgroundColor: [C.red, C.pinkBg], borderWidth: 2, borderColor: '#fff' }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false, cutout: '50%',
-    plugins: {
-      legend: { position: 'bottom',
-        labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
-      tooltip: { ...tooltip,
-        callbacks: { label: c => ` ${c.raw} (${(c.raw/256*100).toFixed(1)} %)` } }
-    }
-  }
-});
-
-// ===== GESCHLECHT =====
-new Chart(document.getElementById('cGender'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Männlich (≈215)', 'Weiblich (≈41)'],
-    datasets: [{ data: [215, 41], backgroundColor: [C.maroon, C.pinkSoft], borderWidth: 2, borderColor: '#fff' }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false, cutout: '50%',
-    plugins: {
-      legend: { position: 'bottom',
-        labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
-      tooltip: { ...tooltip,
-        callbacks: { label: c => ` ≈${c.raw} (${(c.raw/256*100).toFixed(1)} %)` } }
-    }
-  }
-});
-
-// ===== UNTERNEHMENSGRÖSSE (Donut) =====
-new Chart(document.getElementById('cSize'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Konzern (77)', 'Keine Angabe (99)', 'Kleinunternehmen (38)', 'Mittelstand (28)', 'Einzelperson (14)'],
-    datasets: [{
-      data: [77, 99, 38, 28, 14],
-      backgroundColor: [C.maroon, '#D5D5D5', C.red, C.pinkSoft, C.pinkLight],
-      borderWidth: 2, borderColor: '#fff',
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false, cutout: '50%',
-    plugins: {
-      legend: { position: 'bottom',
-        labels: { padding: 8, font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
-      tooltip: { ...tooltip,
-        callbacks: { label: c => ` ${c.raw} (${(c.raw/256*100).toFixed(1)} %)` } }
-    }
-  }
-});
-
-// ===== DATENVOLLSTÄNDIGKEIT =====
-new Chart(document.getElementById('cData'), {
-  type: 'bar',
-  data: {
-    labels: ['Alter', 'Positionsart', 'Branche', 'Unternehmen', 'Unt.größe'],
-    datasets: [
-      { label: 'Ausgefüllt', data: [253,215,184,178,157], backgroundColor: C.red, borderRadius: 3, maxBarThickness: 16 },
-      { label: 'Fehlend', data: [3,41,72,78,99], backgroundColor: '#D5D5D5', borderRadius: 3, maxBarThickness: 16 }
-    ]
-  },
-  options: {
-    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-    plugins: {
-      legend: { position: 'top', align: 'end',
-        labels: { font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
-      tooltip: { ...tooltip,
-        callbacks: { label: c => ` ${c.dataset.label}: ${c.raw} (${(c.raw/256*100).toFixed(0)} %)` } }
+  // ===== DATENVOLLSTÄNDIGKEIT =====
+  charts.data = new Chart(document.getElementById('cData'), {
+    type: 'bar',
+    data: {
+      labels: ['Alter', 'Positionsart', 'Branche', 'Unternehmen', 'Unt.größe'],
+      datasets: [
+        { label: 'Ausgefüllt', data: [253,215,184,178,157], backgroundColor: C.red, borderRadius: 3, maxBarThickness: 16 },
+        { label: 'Fehlend', data: [3,41,72,78,99], backgroundColor: C.gray, borderRadius: 3, maxBarThickness: 16 }
+      ]
     },
-    scales: {
-      x: { stacked: true, grid: { color: '#f5eded' }, max: 256, ticks: { stepSize: 50 } },
-      y: { stacked: true, grid: { display: false }, ticks: { font: { size: tsz(), weight: '500' }, color: '#444' } }
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', align: 'end',
+          labels: { font: { size: 11 }, usePointStyle: true, pointStyle: 'rectRounded', boxWidth: 10, color: '#444' } },
+        tooltip: { ...tt, callbacks: { label: c => ` ${c.dataset.label}: ${c.raw} (${(c.raw/N*100).toFixed(0)} %)` } }
+      },
+      scales: {
+        x: { stacked: true, grid: { color: '#f5eded' }, max: N, ticks: { stepSize: 50 } },
+        y: { stacked: true, grid: { display: false }, ticks: { font: { size: tsz(), weight: '500' }, color: '#444' } }
+      }
     }
-  }
-});
+  });
+}
+
+// Init
+buildAll();
+
+// Toggle listener
+document.getElementById('toggleNA').addEventListener('change', buildAll);
 </script>
 </body>
 </html>
